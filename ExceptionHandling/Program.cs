@@ -5,8 +5,9 @@
         static void Main(string[] args)
         {
             string dato;
-            Console.WriteLine("Indtast dagens dato (19/12/2023): ");
+            Console.Write("Indtast dagens dato (19/12/2023): ");
             dato = Console.ReadLine();
+            Console.Clear();
             Console.WriteLine(CheckDato(dato));
         }
         static string CheckDato(string dato) 
@@ -16,11 +17,21 @@
             try
             {
                 dagensDato = DateTime.Parse(dato);
-                msg = $"Dato konverteret korrekt\nDagens dato: {dagensDato}";
+                Console.WriteLine($"Dato konverteret korrekt\nIndtastet dato: {dagensDato.ToShortDateString()}");
+                if (dagensDato < DateTime.Now.Date)
+                {
+                    msg = $"\nDu har indtastet en dato før dagens dato";
+                }
+                else
+                {
+                    Exception ex = new Exception($"\n{dagensDato.ToShortDateString()} is !< {DateTime.Now.ToShortDateString()}");
+                    msg = $"\nDu har ikke indtastet en dato som ligger før dagens dato\n{ex.Message};";
+                    
+                }
             }
             catch (Exception e)
             {
-                msg = $"Ukorrekt dato indtastet. Venligst prøv igen\n{e.Message}";
+                Console.WriteLine($"Ukorrekt dato indtastet. Venligst prøv igen\n{e.Message}");
                 throw;
             }
             return msg;
